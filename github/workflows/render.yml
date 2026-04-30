@@ -1,0 +1,17 @@
+name: Render Video
+on:
+  push:
+    paths: ['data/sceneData.json', 'src/**', 'package.json', 'package-lock.json', '.github/workflows/render.yml']
+  workflow_dispatch:
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 20}
+      - run: npm install
+      - run: npm run build
+      - run: npm run render
+      - uses: actions/upload-artifact@v4
+        with: {name: video, path: out/video.mp4}
